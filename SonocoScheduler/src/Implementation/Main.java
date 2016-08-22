@@ -1,5 +1,7 @@
 package Implementation;
 
+import interfaces.IComponentTimer;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -12,7 +14,7 @@ public class Main {
 		factory.InitializeExtuder(new Extruder(1));
 		factory.InitializeExtuder(new Extruder(2));
 		
-		ComponentTimer timer = new ComponentTimer();
+		IComponentTimer timer = new ComponentTimer();
 		timer.start();
 	}
 }
