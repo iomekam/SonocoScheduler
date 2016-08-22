@@ -109,4 +109,9 @@ public class Press implements IPress, ITimedBasedComponent {
 		}
 	}
 
+	@Override
+	public boolean LimitReached() {
+		return this.getRemaningMolds() == 0;
+	}
+
 }

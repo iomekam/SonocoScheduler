@@ -13,4 +13,6 @@ public interface IPress {
 	
 	int getTotalMoldsCreated();
 	int getRemaningMolds();
+	
+	boolean LimitReached();
 }

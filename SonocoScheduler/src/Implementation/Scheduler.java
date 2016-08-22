@@ -11,6 +11,7 @@ import interfaces.ITimedBasedComponent;
 public class Scheduler implements IScheduler {
 	private int _totalRemainingMolds;
 	@Override
+	////////////////////////////////////////////////////////////////////////
 	public IPress getNextPress() {
 		List<IPress> availablePresses = new ArrayList<IPress>();
 		for(IPress press : InstanceFactory.get().GetAllPresses()) {
@@ -22,6 +23,11 @@ public class Scheduler implements IScheduler {
 		}
 		
 		_totalRemainingMolds = this.moldsRemaining(availablePresses);
+		IPress pressWithLimit = nextPressWithLimit(availablePresses);
+		
+		if(pressWithLimit != null) {
+			return pressWithLimit;
+		}
 		int index = -1;
 		for(IPress press : availablePresses) {
 			if (index < 0 && !availablePresses.isEmpty()) {
@@ -38,7 +44,31 @@ public class Scheduler implements IScheduler {
 		
 		return null;
 	}
-	
+	////////////////////////////////////////////////////////////////////////
+	private IPress nextPressWithLimit(List<IPress> presses) {
+		int index = -1;
+		List<IPress> pressesNotAtLimit = new ArrayList<IPress>();
+		//Search through each press to see if the limit has been reached
+		for (IPress press : presses) {
+			if(press.LimitReached() == false) {
+				pressesNotAtLimit.add(press);
+			}
+		}
+		//Find next press that still needs to get to limit
+		if(pressesNotAtLimit.isEmpty() == false) {
+			for(IPress press : pressesNotAtLimit) {
+				if (index < 0) {
+					index = 0;
+				}
+				else if (weightedScore(press) < weightedScore(pressesNotAtLimit.get(index))){
+					index = pressesNotAtLimit.indexOf(press);
+				}
+			}
+			return pressesNotAtLimit.get(index);
+		}
+		return null;
+	}
+	////////////////////////////////////////////////////////////////////////
 	private int weightedScore(IPress press) {
 		if (press.getRemaningMolds() > 0) {
 			return press.getScore() * (1 - (press.getRemaningMolds()/ _totalRemainingMolds));
@@ -47,7 +77,7 @@ public class Scheduler implements IScheduler {
 			return press.getScore();
 		}
 	}
-	
+	////////////////////////////////////////////////////////////////////////
 	private int moldsRemaining(List<IPress> availablePresses) {
 		int moldsRemaining = 0;
 		for(IPress press : availablePresses) {
@@ -55,7 +85,7 @@ public class Scheduler implements IScheduler {
 		}
 		return moldsRemaining;
 	}
-
+	////////////////////////////////////////////////////////////////////////
 	@Override
 	public boolean isLimitReachable(int totalTimeInDay) {
 		int minTimeNeeded = 0;
