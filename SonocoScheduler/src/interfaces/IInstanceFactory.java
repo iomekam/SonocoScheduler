@@ -8,8 +8,10 @@ public interface IInstanceFactory {
 	List<ITimedBasedComponent> GetAllTimedBasedComponents();
 	
 	IScheduler getSceduler();
+	IReporter getReporter();
 	
 	void InitializeExtuder(IExtruder extruder);
 	void InitializePress(IPress press);
 	void InitializeScheduler(IScheduler scheduler);
+	void InitializeReporter(IReporter reporter);
 }

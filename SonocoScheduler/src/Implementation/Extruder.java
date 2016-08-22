@@ -2,6 +2,7 @@ package Implementation;
 
 import interfaces.IExtruder;
 import interfaces.IPress;
+import interfaces.IReporter;
 import interfaces.IScheduler;
 import interfaces.ITimedBasedComponent;
 
@@ -22,9 +23,8 @@ public class Extruder implements IExtruder, ITimedBasedComponent {
 
 	@Override
 	public void handOffCharge(IPress press) {
-		System.out.println(
-			String.format("Extruder %d has finished creating the charge for Press %d", _id, _press.getId())
-		);
+		IReporter reporter = InstanceFactory.get().getReporter();
+		reporter.chargeCompleted(this, press);
 		
 		_press.receiveCharge();
 	}
@@ -59,5 +59,10 @@ public class Extruder implements IExtruder, ITimedBasedComponent {
 		_press = null;
 		_currentCharge = -HUMANERROR;
 		_isActive = false;
+	}
+
+	@Override
+	public int getId() {
+		return _id;
 	}
 }

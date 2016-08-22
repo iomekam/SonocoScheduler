@@ -19,6 +19,7 @@ public class Main {
 		factory.InitializeExtuder(new Extruder(2));
 		
 		factory.InitializeScheduler(new MockScheduler());
+		factory.InitializeReporter(new Reporter());
 		
 		IComponentTimer timer = new ComponentTimer(45);
 		timer.start();

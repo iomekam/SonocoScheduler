@@ -1,5 +1,5 @@
 package interfaces;
 
 public interface IReporter {
-	void chargeCompleted();
+	void chargeCompleted(IExtruder extruder, IPress press);
 }
