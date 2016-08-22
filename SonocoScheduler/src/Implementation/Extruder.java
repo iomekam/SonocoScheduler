@@ -39,7 +39,7 @@ public class Extruder implements IExtruder, ITimedBasedComponent {
 		
 		_currentCharge++;
 		
-		if(_currentCharge == _press.getCharge()) {
+		if(_currentCharge == _press.getCharge() + _press.getDistance()) {
 			handOffCharge(_press);
 			reset();
 		}
@@ -47,7 +47,7 @@ public class Extruder implements IExtruder, ITimedBasedComponent {
 
 	@Override
 	public int getTimeRemaining() {
-		return _press.getCharge() - _currentCharge;
+		return (_press.getCharge() + _press.getDistance()) - _currentCharge;
 	}
 
 	@Override
