@@ -15,8 +15,9 @@ public class ComponentTimer implements IComponentTimer {
 	@Override
 	public void start() {
 		int count = 0;
+		InstanceFactory instanceFactory = InstanceFactory.get();
+		
 		while(count < _time) {
-			InstanceFactory instanceFactory = InstanceFactory.get();
 			List<ITimedBasedComponent> timedComponentList = instanceFactory.GetAllTimedBasedComponents();
 			
 			for(ITimedBasedComponent component : timedComponentList) {
@@ -25,5 +26,7 @@ public class ComponentTimer implements IComponentTimer {
 			
 			count++;
 		}
+		
+		instanceFactory.getReporter().limitStatistics();
 	}
 }

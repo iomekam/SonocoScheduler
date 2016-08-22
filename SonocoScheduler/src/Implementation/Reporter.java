@@ -29,4 +29,16 @@ public class Reporter implements IReporter {
 				String.format("Extruder %d has finished creating the charge for Press %d", extruder.getId(), press.getId())
 			);
 	}
+
+	@Override
+	public void limitStatistics() {
+		List<IPress> presses = InstanceFactory.get().GetAllPresses();
+		
+		for(IPress press : presses) {
+			System.out.println(
+				String.format("Press %d: %d/%d", press.getId(), press.getTotalMoldsCreated(), press.getLimit())
+			);
+		}
+		
+	}
 }

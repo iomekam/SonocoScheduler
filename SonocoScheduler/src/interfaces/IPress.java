@@ -8,6 +8,7 @@ public interface IPress {
 	
 	int getId();
 	
+	void creatingCharge();
 	void receiveCharge();
 	
 	int getTotalMoldsCreated();
