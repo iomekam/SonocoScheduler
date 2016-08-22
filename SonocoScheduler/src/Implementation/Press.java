@@ -4,11 +4,16 @@ import interfaces.IPress;
 import interfaces.ITimedBasedComponent;
 
 public class Press implements IPress, ITimedBasedComponent {
-
+	
+	private int _id;
+	
+	public Press(int id) {
+		_id = id;
+	}
+	
 	@Override
-	public void start() {
-		// TODO Auto-generated method stub
-
+	public void process() {
+		System.out.println(String.format("Press %d is processesing", _id));
 	}
 
 	@Override

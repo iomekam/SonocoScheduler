@@ -1,11 +1,13 @@
 package Implementation;
 
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import interfaces.IComponentTimer;
+import interfaces.ITimedBasedComponent;
 
 public class ComponentTimer implements IComponentTimer {
 	
@@ -20,7 +22,12 @@ public class ComponentTimer implements IComponentTimer {
 		_task = new Runnable() {
 			@Override
 			public void run() {
-				tick();
+				try {
+					tick();
+				} catch(Exception e) {
+					stop();
+					e.printStackTrace();
+				}
 			}
 		};
 		
@@ -33,6 +40,11 @@ public class ComponentTimer implements IComponentTimer {
 	}
 	
 	private void tick() {
+		InstanceFactory instanceFactory = InstanceFactory.get();
+		List<ITimedBasedComponent> timedComponentList = instanceFactory.GetAllTimedBasedComponents();
 		
+		for(ITimedBasedComponent component : timedComponentList) {
+			component.process();
+		}
 	}
 }

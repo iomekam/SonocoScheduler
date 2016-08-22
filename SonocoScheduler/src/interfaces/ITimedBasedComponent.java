@@ -1,7 +1,7 @@
 package interfaces;
 
 public interface ITimedBasedComponent {
-	void start();
+	void process();
 	void getTimeRemaining();
 	boolean isActive();
 }
