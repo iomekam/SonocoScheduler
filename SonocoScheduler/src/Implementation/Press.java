@@ -47,4 +47,10 @@ public class Press implements IPress, ITimedBasedComponent {
 		return 0;
 	}
 
+	@Override
+	public int getCharge() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
