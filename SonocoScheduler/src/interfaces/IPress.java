@@ -6,5 +6,9 @@ public interface IPress {
 	int getLimit();
 	int getCharge();
 	
+	int getId();
+	
+	void receiveCharge();
+	
 	int getTotalMoldsCreated();
 }

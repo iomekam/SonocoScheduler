@@ -1,6 +1,7 @@
 package Implementation;
 
 import interfaces.IComponentTimer;
+import mocks.MockScheduler;
 
 public class Main {
 
@@ -17,7 +18,9 @@ public class Main {
 		factory.InitializeExtuder(new Extruder(1));
 		factory.InitializeExtuder(new Extruder(2));
 		
-		IComponentTimer timer = new ComponentTimer();
+		factory.InitializeScheduler(new MockScheduler());
+		
+		IComponentTimer timer = new ComponentTimer(30);
 		timer.start();
 	}
 }

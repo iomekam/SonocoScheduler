@@ -13,11 +13,12 @@ public class Press implements IPress, ITimedBasedComponent {
 	
 	@Override
 	public void process() {
-		System.out.println(String.format("Press %d is processesing", _id));
+		//System.out.println(String.format("Press %d is processesing", _id));
 	}
 
 	@Override
-	public void getTimeRemaining() {
+	public int getTimeRemaining() {
+		return 0;
 		// TODO Auto-generated method stub
 
 	}
@@ -54,8 +55,18 @@ public class Press implements IPress, ITimedBasedComponent {
 
 	@Override
 	public int getCharge() {
+		return 10;
+	}
+
+	@Override
+	public int getId() {
+		return _id;
+	}
+
+	@Override
+	public void receiveCharge() {
 		// TODO Auto-generated method stub
-		return 0;
+		
 	}
 
 }

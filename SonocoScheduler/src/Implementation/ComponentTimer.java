@@ -6,12 +6,16 @@ import interfaces.IComponentTimer;
 import interfaces.ITimedBasedComponent;
 
 public class ComponentTimer implements IComponentTimer {
-	private int TIME = 6000; // 10 minutes
+	private int _time;
+	
+	public ComponentTimer(int timeInSeconds) {
+		_time = timeInSeconds;
+	}
 	
 	@Override
 	public void start() {
 		int count = 0;
-		while(count < TIME) {
+		while(count < _time) {
 			InstanceFactory instanceFactory = InstanceFactory.get();
 			List<ITimedBasedComponent> timedComponentList = instanceFactory.GetAllTimedBasedComponents();
 			
@@ -21,10 +25,5 @@ public class ComponentTimer implements IComponentTimer {
 			
 			count++;
 		}
-	}
-
-	@Override
-	public void stop() {
-		
 	}
 }

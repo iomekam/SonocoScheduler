@@ -6,6 +6,7 @@ import java.util.List;
 import interfaces.IExtruder;
 import interfaces.IInstanceFactory;
 import interfaces.IPress;
+import interfaces.IScheduler;
 import interfaces.ITimedBasedComponent;
 
 public class InstanceFactory implements IInstanceFactory {
@@ -13,6 +14,7 @@ public class InstanceFactory implements IInstanceFactory {
 	private static InstanceFactory _instanceFactory;
 	private List<IPress> _pressList;
 	private List<IExtruder> _extruderList;
+	private IScheduler _scheduler;
 	
 	private InstanceFactory() {
 		_pressList = new ArrayList<IPress>();
@@ -66,5 +68,15 @@ public class InstanceFactory implements IInstanceFactory {
 		}
 		
 		return _instanceFactory;
+	}
+
+	@Override
+	public IScheduler getSceduler() {
+		return _scheduler;
+	}
+
+	@Override
+	public void InitializeScheduler(IScheduler scheduler) {
+		_scheduler = scheduler;
 	}
 }
