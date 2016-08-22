@@ -20,7 +20,7 @@ public class Main {
 		
 		factory.InitializeScheduler(new MockScheduler());
 		
-		IComponentTimer timer = new ComponentTimer(30);
+		IComponentTimer timer = new ComponentTimer(45);
 		timer.start();
 	}
 }

@@ -11,12 +11,13 @@ public class Extruder implements IExtruder, ITimedBasedComponent {
 	private boolean _isActive;
 	private IPress _press;
 	private int _currentCharge;
+	private final int HUMANERROR = 5;
 	
 	public Extruder(int id) {
 		_id = id;
 		_isActive = false;
 		_press = null;
-		_currentCharge = 0;
+		_currentCharge = -HUMANERROR;
 	}
 
 	@Override
@@ -33,7 +34,6 @@ public class Extruder implements IExtruder, ITimedBasedComponent {
 		if(!_isActive) {
 			IScheduler scheduler = InstanceFactory.get().getSceduler();
 			_press = scheduler.getNextPress();
-			_currentCharge = 0;
 			_isActive = true;
 		}
 		
@@ -57,7 +57,7 @@ public class Extruder implements IExtruder, ITimedBasedComponent {
 	
 	private void reset() {
 		_press = null;
-		_currentCharge = 0;
+		_currentCharge = -HUMANERROR;
 		_isActive = false;
 	}
 }
