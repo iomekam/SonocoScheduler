@@ -12,15 +12,16 @@ public class InstanceFactory implements IInstanceFactory {
 	
 	private static InstanceFactory _instanceFactory;
 	private List<IPress> _pressList;
+	private List<IExtruder> _extruderList;
 	
 	private InstanceFactory() {
 		_pressList = new ArrayList<IPress>();
+		_extruderList = new ArrayList<IExtruder>();
 	}
 
 	@Override
 	public List<IExtruder> GetAllExtruders() {
-		// TODO Auto-generated method stub
-		return null;
+		return _extruderList;
 	}
 
 	@Override
@@ -31,6 +32,12 @@ public class InstanceFactory implements IInstanceFactory {
 	@Override
 	public List<ITimedBasedComponent> GetAllTimedBasedComponents() {
 		List<ITimedBasedComponent> componentList = new ArrayList<ITimedBasedComponent>();
+		
+		for(IExtruder extruder : _extruderList) {
+			if(extruder instanceof ITimedBasedComponent) {
+				componentList.add((ITimedBasedComponent)extruder);
+			}
+		}
 		
 		for(IPress press : _pressList) {
 			if(press instanceof ITimedBasedComponent) {
@@ -43,7 +50,7 @@ public class InstanceFactory implements IInstanceFactory {
 
 	@Override
 	public void InitializeExtuder(IExtruder extruder) {
-		// TODO Auto-generated method stub
+		_extruderList.add(extruder);
 
 	}
 

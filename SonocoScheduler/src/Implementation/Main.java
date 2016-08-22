@@ -9,6 +9,9 @@ public class Main {
 		factory.InitializePress(new Press(2));
 		factory.InitializePress(new Press(3));
 		
+		factory.InitializeExtuder(new Extruder(1));
+		factory.InitializeExtuder(new Extruder(2));
+		
 		ComponentTimer timer = new ComponentTimer();
 		timer.start();
 	}
