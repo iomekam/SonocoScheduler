@@ -9,9 +9,11 @@ public interface IInstanceFactory {
 	
 	IScheduler getSceduler();
 	IReporter getReporter();
+	IComponentTimer getComponentTimer();
 	
 	void InitializeExtuder(IExtruder extruder);
 	void InitializePress(IPress press);
 	void InitializeScheduler(IScheduler scheduler);
 	void InitializeReporter(IReporter reporter);
+	void InitializeComponentTimer(IComponentTimer timer);
 }

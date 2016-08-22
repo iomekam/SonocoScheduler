@@ -26,7 +26,8 @@ public class Reporter implements IReporter {
 		_extruderMap.get(extruder).add(press);
 		
 		System.out.println(
-				String.format("Extruder %d has finished creating the charge for Press %d", extruder.getId(), press.getId())
+				String.format("[%s]: Extruder %d has finished creating the charge for Press %d",  
+						secondsToTime(InstanceFactory.get().getComponentTimer().getCurrentSeconds()), extruder.getId(), press.getId())
 			);
 	}
 
@@ -39,6 +40,13 @@ public class Reporter implements IReporter {
 				String.format("Press %d: %d/%d", press.getId(), press.getTotalMoldsCreated(), press.getLimit())
 			);
 		}
+	}
+	
+	private String secondsToTime(int totalSeconds) {		
+		int hours = totalSeconds / 3600;
+		int minutes = (totalSeconds % 3600) / 60;
+		int seconds = totalSeconds % 60;
 		
+		return String.format("%02d:%02d:%02d", hours, minutes, seconds); 
 	}
 }

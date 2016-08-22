@@ -3,6 +3,7 @@ package Implementation;
 import java.util.ArrayList;
 import java.util.List;
 
+import interfaces.IComponentTimer;
 import interfaces.IExtruder;
 import interfaces.IInstanceFactory;
 import interfaces.IPress;
@@ -17,6 +18,7 @@ public class InstanceFactory implements IInstanceFactory {
 	private List<IExtruder> _extruderList;
 	private IScheduler _scheduler;
 	private IReporter _reporter;
+	private IComponentTimer _timer;
 	
 	private InstanceFactory() {
 		_pressList = new ArrayList<IPress>();
@@ -90,6 +92,17 @@ public class InstanceFactory implements IInstanceFactory {
 	@Override
 	public void InitializeReporter(IReporter reporter) {
 		_reporter = reporter;
+		
+	}
+
+	@Override
+	public IComponentTimer getComponentTimer() {
+		return _timer;
+	}
+
+	@Override
+	public void InitializeComponentTimer(IComponentTimer timer) {
+		_timer = timer;
 		
 	}
 }

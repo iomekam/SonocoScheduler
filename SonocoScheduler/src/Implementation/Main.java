@@ -22,6 +22,8 @@ public class Main {
 		factory.InitializeReporter(new Reporter());
 		
 		IComponentTimer timer = new ComponentTimer(33300); //9.25 hours
+		factory.InitializeComponentTimer(timer);
+		
 		timer.start();
 	}
 }
