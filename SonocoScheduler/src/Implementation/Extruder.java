@@ -5,6 +5,7 @@ import interfaces.IPress;
 import interfaces.IReporter;
 import interfaces.IScheduler;
 import interfaces.ITimedBasedComponent;
+import java.lang.Math;
 
 public class Extruder implements IExtruder, ITimedBasedComponent {
 	
@@ -13,6 +14,8 @@ public class Extruder implements IExtruder, ITimedBasedComponent {
 	private IPress _press;
 	private int _currentCharge;
 	private final int HUMANERROR = 5;
+	private int _currentPosition;
+	private int _lastPosition;
 	
 	public Extruder(int id) {
 		_id = id;
@@ -32,17 +35,17 @@ public class Extruder implements IExtruder, ITimedBasedComponent {
 		if(!_isActive) {
 			IScheduler scheduler = InstanceFactory.get().getSceduler();
 			_press = scheduler.getNextPress();
-			
 			if(_press != null) {
 				_isActive = true;
 				_press.creatingCharge();
+				_currentPosition = _press.getPosition();
 			}
 		}
 		
 		if(_press != null) {
 			_currentCharge++;
 			
-			if(_currentCharge == _press.getCharge() + _press.getDistance()) {
+			if(_currentCharge == _press.getCharge() + getDistance()) {
 				handOffCharge(_press);
 				reset();
 			}
@@ -51,7 +54,7 @@ public class Extruder implements IExtruder, ITimedBasedComponent {
 
 	@Override
 	public int getTimeRemaining() {
-		return (_press.getCharge() + _press.getDistance()) - _currentCharge;
+		return (_press.getCharge() + getDistance()) - _currentCharge;
 	}
 
 	@Override
@@ -60,11 +63,17 @@ public class Extruder implements IExtruder, ITimedBasedComponent {
 	}
 	
 	private void reset() {
+		if (_press != null) {
+			_lastPosition = _press.getPosition();
+		}
 		_press = null;
 		_currentCharge = -HUMANERROR;
 		_isActive = false;
 	}
-
+	
+	private int getDistance() {
+		return Math.abs(_currentPosition - _lastPosition);
+	}
 	@Override
 	public int getId() {
 		return _id;

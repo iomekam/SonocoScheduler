@@ -14,7 +14,6 @@ public class ComponentTimer implements IComponentTimer {
 		_seconds = 1;
 	}
 	
-	@Override
 	public void start() {
 		InstanceFactory instanceFactory = InstanceFactory.get();
 		
@@ -33,7 +32,6 @@ public class ComponentTimer implements IComponentTimer {
 		instanceFactory.getReporter().limitStatistics();
 	}
 
-	@Override
 	public int getCurrentSeconds() {
 		return _seconds;
 	}

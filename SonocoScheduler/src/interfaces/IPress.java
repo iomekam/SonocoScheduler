@@ -2,7 +2,7 @@ package interfaces;
 
 public interface IPress {
 	int getScore();
-	int getDistance();
+	int getPosition();
 	int getLimit();
 	int getCharge();
 	

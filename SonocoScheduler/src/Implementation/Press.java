@@ -16,8 +16,9 @@ public class Press implements IPress, ITimedBasedComponent {
 	private int _totalMoldsCreated;
 	private int _charge;
 	private int _limit;
+	private int _position;
 	
-	public Press(int id, int cycleTime, int charge, int limit) {
+	public Press(int id, int cycleTime, int charge, int limit, int position) {
 		_id = id;
 		_state = PressState.IDLE;
 		_timeRemaining = 0;
@@ -25,6 +26,7 @@ public class Press implements IPress, ITimedBasedComponent {
 		_cycleTime = cycleTime;
 		_charge = charge;
 		_limit = limit;
+		_position = position;
 		
 		_totalMoldsCreated = 0;
 	}
@@ -58,14 +60,12 @@ public class Press implements IPress, ITimedBasedComponent {
 
 	@Override
 	public int getScore() {
-		// TODO Auto-generated method stub
-		return 0;
+		return _cycleTime + _charge;
 	}
 
 	@Override
-	public int getDistance() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getPosition() {
+		return _position;
 	}
 
 	@Override
