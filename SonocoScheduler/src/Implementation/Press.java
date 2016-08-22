@@ -3,6 +3,7 @@ package Implementation;
 import interfaces.IPress;
 import interfaces.ITimedBasedComponent;
 
+
 public class Press implements IPress, ITimedBasedComponent {
 	
 	private enum PressState {
@@ -96,6 +97,16 @@ public class Press implements IPress, ITimedBasedComponent {
 	@Override
 	public void creatingCharge() {
 		_state = PressState.CREATINGCHARGE;
+	}
+	
+	@Override
+	public int getRemaningMolds() {
+		if(_limit > _totalMoldsCreated) {
+			return _limit - _totalMoldsCreated;
+		}
+		else {
+			return 0;
+		}
 	}
 
 }

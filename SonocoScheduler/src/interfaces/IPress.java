@@ -12,4 +12,5 @@ public interface IPress {
 	void receiveCharge();
 	
 	int getTotalMoldsCreated();
+	int getRemaningMolds();
 }
