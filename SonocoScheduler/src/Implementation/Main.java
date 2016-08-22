@@ -2,9 +2,9 @@ package Implementation;
 
 import interfaces.IComponentTimer;
 
-
 public class Main {
 
+	static final int  _timelimit = 33300; // 9.25 hours
 	public static void main(String[] args) {
 		InstanceFactory factory = InstanceFactory.get();
 		
@@ -21,7 +21,7 @@ public class Main {
 		factory.InitializeScheduler(new Scheduler());
 		factory.InitializeReporter(new Reporter());
 		
-		IComponentTimer timer = new ComponentTimer(33300); //9.25 hours
+		IComponentTimer timer = new ComponentTimer(_timelimit);
 		factory.InitializeComponentTimer(timer);
 		
 		timer.start();

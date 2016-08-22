@@ -58,4 +58,10 @@ public class MockScheduler implements IScheduler {
 		}
 		return moldsRemaining;
 	}
+
+	@Override
+	public boolean isLimitReachable(int timeInDay) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

@@ -55,4 +55,15 @@ public class Scheduler implements IScheduler {
 		}
 		return moldsRemaining;
 	}
+
+	@Override
+	public boolean isLimitReachable(int totalTimeInDay) {
+		int minTimeNeeded = 0;
+		List<IPress> allPresses= InstanceFactory.get().GetAllPresses();
+		for (IPress press : allPresses) {
+			minTimeNeeded += (press.getScore() * press.getLimit());
+		}
+		
+		return minTimeNeeded < totalTimeInDay;
+	}
 }
