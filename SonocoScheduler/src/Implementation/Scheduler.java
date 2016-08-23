@@ -22,7 +22,7 @@ public class Scheduler implements IScheduler {
 			}
 		}
 		
-		_totalRemainingMolds = this.moldsRemaining(availablePresses);
+		_totalRemainingMolds = this.moldsRemaining(InstanceFactory.get().GetAllPresses());
 		IPress pressWithLimit = nextPressWithLimit(availablePresses);
 		
 		if(pressWithLimit != null) {
