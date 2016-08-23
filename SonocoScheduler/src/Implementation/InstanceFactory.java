@@ -105,4 +105,8 @@ public class InstanceFactory implements IInstanceFactory {
 		_timer = timer;
 		
 	}
+	
+	public void reset() {
+		_instanceFactory = null;
+	}
 }

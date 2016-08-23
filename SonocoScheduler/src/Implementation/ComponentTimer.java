@@ -11,7 +11,7 @@ public class ComponentTimer implements IComponentTimer {
 	
 	public ComponentTimer(int timeInSeconds) {
 		_time = timeInSeconds;
-		_seconds = 1;
+		_seconds = 0;
 	}
 	
 	public void start() {
