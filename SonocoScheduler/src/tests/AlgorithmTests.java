@@ -42,6 +42,12 @@ public class AlgorithmTests {
 		assertTrue(testPress.getTotalMoldsCreated() != 0);	
 		
 	}
+	//////////////////////////////////////////////////////////////////////////////////
+	/*
+	 *  testAllPressesReachLimit test that each press will reach its limit in less
+	 *  time than the total processing time of every mold
+	 * 
+	 */
 	
 	@Test
 	public void testAllPressesReachLimit() {
@@ -70,6 +76,33 @@ public class AlgorithmTests {
 		assertFalse((partsRemaining != 0) );
 		
 	}
+	///////////////////////////////////////////////////////////////////////////////////
+	/*
+	 * testSelectPressWithLimit ensures that if only one press has not reached it's limit the algorithm
+	 *  will select it
+	 * 
+	 */
+	@Test
+	public void testSelectPressWithLimit() {
+		int time = 21;
+		InstanceFactory factory = setup();
+		Press testPress = new Press(1, 9000, 20, 1, 2);
+		
+		factory.InitializePress(testPress);
+		factory.InitializePress(new Press(2, 1, 20, 0, 1));
+		factory.InitializePress(new Press(3, 1, 20, 0, 3));
+		factory.InitializePress(new Press(4, 1, 20, 0, 4));
+		factory.InitializePress(new Press(5, 1, 20, 0, 5));
+		factory.InitializePress(new Press(6, 1, 20, 0, 6));
+		
+		IComponentTimer timer = new ComponentTimer(time); // time for extruder to make charge and pass it
+		factory.InitializeComponentTimer(timer);
+		
+		timer.start();
+		
+		assertTrue(testPress.isActive());
+	}
+	
 	
 	private InstanceFactory setup() {
 		InstanceFactory factory = InstanceFactory.get();
