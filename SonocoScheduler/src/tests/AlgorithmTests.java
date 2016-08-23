@@ -21,31 +21,10 @@ import interfaces.ITimedBasedComponent;
 
 public class AlgorithmTests {
 
-	@Test
-	public void testNoPressSkipped() {
-		InstanceFactory factory = setup();
-		IPress testPress = new Press(1, 900, 24, 100, 2);
-		
-		factory.InitializePress(new Press(2, 90, 30, 10, 1));
-		factory.InitializePress(testPress);
-		factory.InitializePress(new Press(3, 90, 33, 10, 3));
-		factory.InitializePress(new Press(4, 90, 25, 10, 4));
-		factory.InitializePress(new Press(5, 90, 20, 10, 5));
-		factory.InitializePress(new Press(6, 90, 30, 10, 6));
-		
-		IComponentTimer timer = new ComponentTimer(2000);
-		factory.InitializeComponentTimer(timer);
-		
-		System.out.println("testNoPressSkipped");
-		timer.start();
-		
-		assertTrue(testPress.getTotalMoldsCreated() != 0);	
-		
-	}
 	//////////////////////////////////////////////////////////////////////////////////
 	/*
 	 *  testAllPressesReachLimit test that each press will reach its limit in less
-	 *  time than the total processing time of every mold
+	 *  time than the total processing time of every mold made
 	 * 
 	 */
 	
