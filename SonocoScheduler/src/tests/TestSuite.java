@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
    ExtruderTests.class,
-   PressTests.class
+   PressTests.class,
+   AlgorithmTests.class
 })
 
 public class TestSuite {

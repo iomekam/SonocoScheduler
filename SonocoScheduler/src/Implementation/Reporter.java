@@ -1,5 +1,10 @@
 package Implementation;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,9 +17,12 @@ import interfaces.IReporter;
 public class Reporter implements IReporter {
 	
 	private Map<IExtruder, List<IPress>> _extruderMap;
+	private 
+	List<String> outputList;
 	
 	public Reporter() {
 		_extruderMap = new HashMap<IExtruder, List<IPress>>();
+		 outputList = new ArrayList<String>();
 	}
 
 	@Override
@@ -24,9 +32,7 @@ public class Reporter implements IReporter {
 		}
 
 		_extruderMap.get(extruder).add(press);
-		
-		System.out.println(
-				String.format("[%s]: Extruder %d has finished creating the charge for Press %d",  
+		outputList.add(String.format("[%s]: Extruder %d has finished creating the charge for Press %d",  
 						secondsToTime(InstanceFactory.get().getComponentTimer().getCurrentSeconds()), extruder.getId(), press.getId())
 			);
 	}
@@ -39,6 +45,14 @@ public class Reporter implements IReporter {
 			System.out.println(
 				String.format("Press %d: %d/%d, Score of %d sec", press.getId(), press.getTotalMoldsCreated(), press.getLimit(), press.getScore())
 			);
+		}
+		
+		try {
+			Path file = Paths.get("output.txt");
+			Files.write(file, outputList, Charset.forName("UTF-8"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
