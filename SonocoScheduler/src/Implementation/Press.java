@@ -61,7 +61,7 @@ public class Press implements IPress, ITimedBasedComponent {
 
 	@Override
 	public int getScore() {
-		return _cycleTime + _charge;
+		return _cycleTime + _charge + _timeRemaining;
 	}
 
 	@Override
