@@ -81,7 +81,32 @@ public class AlgorithmTests {
 		
 		assertTrue(testPress.isActive());
 	}
-	
+
+///////////////////////////////////////////////////////////////////////////////////
+/*
+* testSelectClosestPress ensures that if two presses have the same weighted score but different distances the press 
+* closest press is chosen
+*/
+	@Test
+	public void testSelectClosestPress() {
+		int time = 41;
+		InstanceFactory factory = setup();
+		Press testPress = new Press(1, 90, 20, 0, 1);
+		
+		factory.InitializePress(testPress);
+		factory.InitializePress(new Press(2, 80, 20, 0, 0));
+		factory.InitializePress(new Press(3, 80, 20, 0, 0));
+		factory.InitializePress(new Press(4, 90, 20, 0, 40));
+		factory.InitializePress(new Press(5, 90, 20, 0, 50));
+		factory.InitializePress(new Press(6, 90, 20, 0, 60));
+		
+		IComponentTimer timer = new ComponentTimer(time); // time for extruder to make charge and pass it
+		factory.InitializeComponentTimer(timer);
+		
+		timer.start();
+		
+		assertTrue(testPress.isActive());
+	}
 ///////////////////////////////////////////////////////////////////////////////////
 /*
 * testEvenDistribution has 6 identical presses which should make the same number of parts
@@ -113,9 +138,41 @@ public class AlgorithmTests {
 				leastMolds = press.getTotalMoldsCreated();
 			}
 		}
-		assertTrue((leastMolds / mostMolds > .95));
+		assertTrue(((float)leastMolds / (float)mostMolds > .99));
 	}
-	
+///////////////////////////////////////////////////////////////////////////////////
+/*
+* testEvenWithDistanceDistribution has 6 identical presses with evenly spread positions. Should make close to the same amount of molds
+* 
+*/
+	@Test
+	public void testEvenDistributionWithDistance() {
+		InstanceFactory factory = setup();
+		
+		factory.InitializePress(new Press(1, 90, 20, 0, 1));
+		factory.InitializePress(new Press(2, 90, 20, 0, 3));
+		factory.InitializePress(new Press(3, 90, 20, 0, 5));
+		factory.InitializePress(new Press(4, 90, 20, 0, 9));
+		factory.InitializePress(new Press(5, 90, 20, 0, 11));
+		factory.InitializePress(new Press(6, 90, 20, 0, 13));
+		
+		IComponentTimer timer = new ComponentTimer(33000); // time for extruder to make charge and pass it
+		factory.InitializeComponentTimer(timer);
+		
+		timer.start();
+		int leastMolds = 0;
+		int mostMolds = 0;
+		
+		for (IPress press : factory.GetAllPresses()) {
+			if (press.getTotalMoldsCreated() > mostMolds) {
+				mostMolds = press.getTotalMoldsCreated();
+			}
+			else if (leastMolds == 0 || press.getTotalMoldsCreated() < leastMolds) {
+				leastMolds = press.getTotalMoldsCreated();
+			}
+		}
+		assertTrue(((float)leastMolds / (float)mostMolds) > .99);
+	}
 	private InstanceFactory setup() {
 		InstanceFactory factory = InstanceFactory.get();
 		List<ITimedBasedComponent> timeList = factory.GetAllTimedBasedComponents();
