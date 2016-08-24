@@ -34,7 +34,7 @@ public class Extruder implements IExtruder, ITimedBasedComponent {
 	public void process() {
 		if(!_isActive) {
 			IScheduler scheduler = InstanceFactory.get().getSceduler();
-			_press = scheduler.getNextPress();
+			_press = scheduler.getNextPress(_lastPosition);
 			if(_press != null) {
 				_isActive = true;
 				_press.creatingCharge();

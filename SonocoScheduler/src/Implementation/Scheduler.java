@@ -13,7 +13,7 @@ import java.lang.Math;
 public class Scheduler implements IScheduler {
 	private int _totalRemainingMolds;
 	@Override
-	public IPress getNextPress() {
+	public IPress getNextPress(int lastPressPosition) {
 		List<IPress> availablePresses = new ArrayList<IPress>();
 		for(IPress press : InstanceFactory.get().GetAllPresses()) {
 			if(press instanceof ITimedBasedComponent) {
@@ -24,10 +24,10 @@ public class Scheduler implements IScheduler {
 		}
 		
 		_totalRemainingMolds = this.moldsRemaining(InstanceFactory.get().GetAllPresses());
-		return nextPress(availablePresses);
+		return nextPress(availablePresses, lastPressPosition);
 	}
 
-	private IPress nextPress(List<IPress> availablePresses) {
+	private IPress nextPress(List<IPress> availablePresses, int lastPosition) {
 		int index = -1;
 		List<IPress> pressesNotAtLimit = new ArrayList<IPress>();
 		//Search through each press to see if the limit has been reached
@@ -42,7 +42,7 @@ public class Scheduler implements IScheduler {
 				if (index < 0) {
 					index = 0;
 				}
-				else if (weightedScore(press)+ getDistance(press,pressesNotAtLimit.get(index)) < weightedScore(pressesNotAtLimit.get(index))){
+				else if (weightedScore(press)+ Math.abs(press.getPosition() - lastPosition) < weightedScore(pressesNotAtLimit.get(index))){
 					index = pressesNotAtLimit.indexOf(press);
 				}
 			}
@@ -53,7 +53,7 @@ public class Scheduler implements IScheduler {
 				if (index < 0 ) {
 					index = 0;
 				}
-				else if (weightedScore(press) + getDistance(press,availablePresses.get(index)) < weightedScore(availablePresses.get(index))){
+				else if (weightedScore(press) + Math.abs(press.getPosition() - lastPosition) < weightedScore(availablePresses.get(index))){
 					index = availablePresses.indexOf(press);
 				}
 			}
@@ -88,9 +88,5 @@ public class Scheduler implements IScheduler {
 		}
 		
 		return minTimeNeeded < totalTimeInDay;
-	}
-	
-	private int getDistance(IPress p1, IPress p2) {
-		return Math.abs(p1.getPosition() - p2.getPosition());
 	}
 }

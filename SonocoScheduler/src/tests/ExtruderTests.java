@@ -20,7 +20,7 @@ public class ExtruderTests {
 		InstanceFactory.get().InitializeScheduler(new IScheduler() {
 
 			@Override
-			public IPress getNextPress() {
+			public IPress getNextPress(int lastPosition) {
 				return new Press(1, 0, 0, 0, 0);
 			}
 
@@ -46,7 +46,7 @@ public class ExtruderTests {
 		InstanceFactory.get().InitializeScheduler(new IScheduler() {
 
 			@Override
-			public IPress getNextPress() {
+			public IPress getNextPress(int lastPosition) {
 				return press;
 			}
 

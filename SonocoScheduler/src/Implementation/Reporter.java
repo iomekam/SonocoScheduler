@@ -43,7 +43,7 @@ public class Reporter implements IReporter {
 		
 		for(IPress press : presses) {
 			System.out.println(
-				String.format("Press %d: %d/%d, Score of %d sec", press.getId(), press.getTotalMoldsCreated(), press.getLimit(), press.getScore())
+				String.format("Press %d: %d/%d", press.getId(), press.getTotalMoldsCreated(), press.getLimit())
 			);
 		}
 		
