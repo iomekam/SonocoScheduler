@@ -2,6 +2,7 @@ package Implementation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import Implementation.InstanceFactory;
 import interfaces.IPress;
@@ -29,6 +30,8 @@ public class Scheduler implements IScheduler {
 
 	private IPress nextPress(List<IPress> availablePresses, int lastPosition) {
 		int index = -1;
+		int distance = 0;
+		Random rn = new Random();
 		List<IPress> pressesNotAtLimit = new ArrayList<IPress>();
 		//Search through each press to see if the limit has been reached
 		for (IPress press : availablePresses) {
@@ -39,22 +42,39 @@ public class Scheduler implements IScheduler {
 		//Find next press that still needs to get to limit
 		if(pressesNotAtLimit.isEmpty() == false) {
 			for(IPress press : pressesNotAtLimit) {
+				if (lastPosition != 0) {
+					distance = Math.abs(press.getPosition() - lastPosition);
+				}
 				if (index < 0) {
 					index = 0;
 				}
-				else if (weightedScore(press)+ Math.abs(press.getPosition() - lastPosition) < weightedScore(pressesNotAtLimit.get(index))){
+				else if (weightedScore(press)+ distance < weightedScore(pressesNotAtLimit.get(index))){
 					index = pressesNotAtLimit.indexOf(press);
+				}
+				else if (weightedScore(press)+ distance == weightedScore(pressesNotAtLimit.get(index))){
+					if(rn.nextInt(1) > 0){
+						index = pressesNotAtLimit.indexOf(press);
+					}
 				}
 			}
 			return pressesNotAtLimit.get(index);
-		}// Find next press if all availble have reached limit
+		}
+		// Find next press if all available have reached limit
 		else if (availablePresses.isEmpty() == false){
 			for(IPress press : availablePresses) {
+				if (lastPosition != 0) {
+					distance = Math.abs(press.getPosition() - lastPosition);
+				}
 				if (index < 0 ) {
 					index = 0;
 				}
-				else if (weightedScore(press) + Math.abs(press.getPosition() - lastPosition) < weightedScore(availablePresses.get(index))){
+				else if (weightedScore(press) + distance < weightedScore(availablePresses.get(index))){
 					index = availablePresses.indexOf(press);
+				}
+				else if (weightedScore(press) + distance == weightedScore(availablePresses.get(index))){
+					if (rn.nextInt(1) > 0){
+						index = availablePresses.indexOf(press);
+					}
 				}
 			}
 			return availablePresses.get(index);

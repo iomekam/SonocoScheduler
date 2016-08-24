@@ -81,7 +81,40 @@ public class AlgorithmTests {
 		
 		assertTrue(testPress.isActive());
 	}
-
+	
+///////////////////////////////////////////////////////////////////////////////////
+/*
+* testEvenDistribution has 6 identical presses which should make the same number of parts
+* 
+*/
+	@Test
+	public void testEvenDistribution() {
+		InstanceFactory factory = setup();
+		
+		factory.InitializePress(new Press(1, 90, 20, 0, 0));
+		factory.InitializePress(new Press(2, 90, 20, 0, 0));
+		factory.InitializePress(new Press(3, 90, 20, 0, 0));
+		factory.InitializePress(new Press(4, 90, 20, 0, 0));
+		factory.InitializePress(new Press(5, 90, 20, 0, 0));
+		factory.InitializePress(new Press(6, 90, 20, 0, 0));
+		
+		IComponentTimer timer = new ComponentTimer(33000); // time for extruder to make charge and pass it
+		factory.InitializeComponentTimer(timer);
+		
+		timer.start();
+		int leastMolds = 0;
+		int mostMolds = 0;
+		
+		for (IPress press : factory.GetAllPresses()) {
+			if (press.getTotalMoldsCreated() > mostMolds) {
+				mostMolds = press.getTotalMoldsCreated();
+			}
+			else if (leastMolds == 0 || press.getTotalMoldsCreated() < leastMolds) {
+				leastMolds = press.getTotalMoldsCreated();
+			}
+		}
+		assertTrue((leastMolds / mostMolds > .95));
+	}
 	
 	private InstanceFactory setup() {
 		InstanceFactory factory = InstanceFactory.get();
