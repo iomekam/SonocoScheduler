@@ -8,6 +8,8 @@ import interfaces.IPress;
 import interfaces.IScheduler;
 import interfaces.ITimedBasedComponent;
 
+import java.lang.Math;
+
 public class Scheduler implements IScheduler {
 	private int _totalRemainingMolds;
 	@Override
@@ -22,33 +24,14 @@ public class Scheduler implements IScheduler {
 		}
 		
 		_totalRemainingMolds = this.moldsRemaining(InstanceFactory.get().GetAllPresses());
-		IPress pressWithLimit = nextPressWithLimit(availablePresses);
-		
-		if(pressWithLimit != null) {
-			return pressWithLimit;
-		}
-		int index = -1;
-		for(IPress press : availablePresses) {
-			if (index < 0 && !availablePresses.isEmpty()) {
-				index = 0;
-			}
-			else if (weightedScore(press) < weightedScore(availablePresses.get(index))){
-				index = availablePresses.indexOf(press);
-			}
-		}
-		
-		if(availablePresses.isEmpty() == false) {
-			return availablePresses.get(index);
-		}
-		
-		return null;
+		return nextPress(availablePresses);
 	}
 
-	private IPress nextPressWithLimit(List<IPress> presses) {
+	private IPress nextPress(List<IPress> availablePresses) {
 		int index = -1;
 		List<IPress> pressesNotAtLimit = new ArrayList<IPress>();
 		//Search through each press to see if the limit has been reached
-		for (IPress press : presses) {
+		for (IPress press : availablePresses) {
 			if(press.LimitReached() == false) {
 				pressesNotAtLimit.add(press);
 			}
@@ -59,11 +42,22 @@ public class Scheduler implements IScheduler {
 				if (index < 0) {
 					index = 0;
 				}
-				else if (weightedScore(press) < weightedScore(pressesNotAtLimit.get(index))){
+				else if (weightedScore(press)+ getDistance(press,pressesNotAtLimit.get(index)) < weightedScore(pressesNotAtLimit.get(index))){
 					index = pressesNotAtLimit.indexOf(press);
 				}
 			}
 			return pressesNotAtLimit.get(index);
+		}// Find next press if all availble have reached limit
+		else if (availablePresses.isEmpty() == false){
+			for(IPress press : availablePresses) {
+				if (index < 0 ) {
+					index = 0;
+				}
+				else if (weightedScore(press) + getDistance(press,availablePresses.get(index)) < weightedScore(availablePresses.get(index))){
+					index = availablePresses.indexOf(press);
+				}
+			}
+			return availablePresses.get(index);
 		}
 		return null;
 	}
@@ -94,5 +88,9 @@ public class Scheduler implements IScheduler {
 		}
 		
 		return minTimeNeeded < totalTimeInDay;
+	}
+	
+	private int getDistance(IPress p1, IPress p2) {
+		return Math.abs(p1.getPosition() - p2.getPosition());
 	}
 }

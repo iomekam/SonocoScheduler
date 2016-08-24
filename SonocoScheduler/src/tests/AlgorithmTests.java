@@ -40,7 +40,7 @@ public class AlgorithmTests {
 		factory.InitializePress(new Press(5, 70, 20, 100, 5));
 		factory.InitializePress(new Press(6, 180, 30, 100, 6));
 		
-		int totalProcessTime = (90 + 150 + 240 + 70 + 110 + 180)* 100; //Maximum process time needed to make molds
+		int totalProcessTime = (90 + 150 + 240 + 70 + 110 + 180)* 50; //Maximum process time needed to make molds
 		ComponentTimer timer = new ComponentTimer(totalProcessTime);
 		factory.InitializeComponentTimer(timer);
 		timer.start();
@@ -52,7 +52,7 @@ public class AlgorithmTests {
 			partsRemaining += press.getRemaningMolds();
 		}
 		
-		assertFalse((partsRemaining != 0) );
+		assertFalse(partsRemaining != 0);
 		
 	}
 	///////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ public class AlgorithmTests {
 		
 		assertTrue(testPress.isActive());
 	}
-	
+
 	
 	private InstanceFactory setup() {
 		InstanceFactory factory = InstanceFactory.get();

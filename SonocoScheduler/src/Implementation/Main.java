@@ -9,11 +9,11 @@ public class Main {
 		InstanceFactory factory = InstanceFactory.get();
 		
 		factory.InitializePress(new Press(1, 9, 3, 100, 1));
-		factory.InitializePress(new Press(2, 200, 6, 100, 2));
-		factory.InitializePress(new Press(3, 9, 2, 100, 3));
+		factory.InitializePress(new Press(2, 280, 6, 100, 2));
+		factory.InitializePress(new Press(3, 9, 3, 100, 3));
 		factory.InitializePress(new Press(4, 9, 3, 100, 4));
-		factory.InitializePress(new Press(5, 9, 2, 100, 5));
-		factory.InitializePress(new Press(6, 9, 3, 100, 6));
+		factory.InitializePress(new Press(5, 9, 3, 100, 5));
+		factory.InitializePress(new Press(6, 8, 3, 100, 6));
 		
 		factory.InitializeExtuder(new Extruder(1));
 		factory.InitializeExtuder(new Extruder(2));
